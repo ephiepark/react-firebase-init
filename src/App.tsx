@@ -10,25 +10,13 @@ import SignUp from "./components/SignUp";
 import { getSignInWithEmailAndPasswordHandler, getSignOutHandler, getSignUpWithEmailAndPasswordHandler } from "./auth/utils";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { AuthConfig } from "./types";
+import firebaseConfig from "./configs/firebaseConfig";
 
 import {
   BrowserRouter as Router,
   Switch,
   Route
 } from "react-router-dom";
-
-
-// Your web app's Firebase configuration
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
-const firebaseConfig = {
-  apiKey: "AIzaSyBZh7pdOTfwWqrOclagbuLHql1xgxUfdfE",
-  authDomain: "fungi-story.firebaseapp.com",
-  projectId: "fungi-story",
-  storageBucket: "fungi-story.appspot.com",
-  messagingSenderId: "104628365708",
-  appId: "1:104628365708:web:da80b4af0b2084b4240ea9",
-  measurementId: "G-4HQ08B8ZYG"
-};
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
