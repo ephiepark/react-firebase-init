@@ -35,7 +35,7 @@ function App() {
         <Route path={'/' + authConfig.signInRoute}>
           <SignIn handleSignInWithEmailAndPassword={authConfig.signInWithEmailAndPasswordHandler} />
         </Route>
-        <Route path={'/' + authConfig.signOutRoute}>
+        <Route path={'/' + authConfig.signUpRoute}>
           <SignUp handleSignUpWithEmailAndPassword={authConfig.signUpWithEmailAndPasswordHandler} />
         </Route>
         <Route path="/">
