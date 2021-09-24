@@ -31,19 +31,17 @@ function App() {
   return (
     <Router>
       <AppHeader authConfig={authConfig} />
-      <div className="App">
-        <Switch>
-          <Route path={'/' + authConfig.signInRoute}>
-            <SignIn handleSignInWithEmailAndPassword={authConfig.signInWithEmailAndPasswordHandler} />
-          </Route>
-          <Route path={'/' + authConfig.signOutRoute}>
-            <SignUp handleSignUpWithEmailAndPassword={authConfig.signUpWithEmailAndPasswordHandler} />
-          </Route>
-          <Route path="/">
-            <div>hi {user?.email}</div>
-          </Route>
-        </Switch>
-      </div>
+      <Switch>
+        <Route path={'/' + authConfig.signInRoute}>
+          <SignIn handleSignInWithEmailAndPassword={authConfig.signInWithEmailAndPasswordHandler} />
+        </Route>
+        <Route path={'/' + authConfig.signOutRoute}>
+          <SignUp handleSignUpWithEmailAndPassword={authConfig.signUpWithEmailAndPasswordHandler} />
+        </Route>
+        <Route path="/">
+          <div>hi {user?.email}</div>
+        </Route>
+      </Switch>
     </Router>
   );
 }

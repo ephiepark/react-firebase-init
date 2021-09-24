@@ -1,11 +1,62 @@
+import { AuthConfig } from "../auth/types";
+import { useAppSelector } from '../app/hooks';
+import { selectUser } from '../features/user/userSlice';
+
 import AppBar from '@mui/material/AppBar';
-import Button from '@mui/material/Button';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import Link from '@mui/material/Link';
-import { AuthConfig } from "../auth/types";
+
+import { Link as RouterLink } from 'react-router-dom';
+
+function LoggedInNav(props: { authConfig: AuthConfig }) {
+  return (
+    <nav>
+      <Link
+        variant="button"
+        color="text.primary"
+        sx={{ my: 1, mx: 1.5 }}
+        component={RouterLink}
+        to={"/"}
+        onClick={props.authConfig.signOutHandler}
+      >
+        Sign Out
+      </Link>
+    </nav>
+  );
+}
+
+function LoggedOutNav(props: { authConfig: AuthConfig }) {
+  return (
+    <nav>
+      <Link
+        variant="button"
+        color="text.primary"
+        sx={{ my: 1, mx: 1.5 }}
+        component={RouterLink}
+        to={"/" + props.authConfig.signInRoute}
+      >
+        Sign In
+      </Link>
+      <Link
+        variant="button"
+        color="text.primary"
+        sx={{ my: 1, mx: 1.5 }}
+        component={RouterLink}
+        to={"/" + props.authConfig.signUpRoute}
+      >
+        Sign Up
+      </Link>
+    </nav>
+  );
+}
 
 export default function AppHeader(props: { authConfig: AuthConfig }) {
+  const user = useAppSelector(selectUser);
+  let nav = <LoggedInNav authConfig={props.authConfig} />;
+  if (user === null) {
+    nav = <LoggedOutNav authConfig={props.authConfig} />;
+  }
   return (
     <AppBar
       position="static"
@@ -15,27 +66,9 @@ export default function AppHeader(props: { authConfig: AuthConfig }) {
     >
       <Toolbar sx={{ flexWrap: 'wrap' }}>
         <Typography variant="h6" color="inherit" noWrap sx={{ flexGrow: 1 }}>
-          <Link href="/">Company name</Link>
+          <Link component={RouterLink} to="/">Company name</Link>
         </Typography>
-        <nav>
-          <Link
-            variant="button"
-            color="text.primary"
-            href={"/" + props.authConfig.signInRoute}
-            sx={{ my: 1, mx: 1.5 }}
-          >
-            Sign In
-          </Link>
-          <Link
-            variant="button"
-            color="text.primary"
-            href={"/" + props.authConfig.signUpRoute}
-            sx={{ my: 1, mx: 1.5 }}
-          >
-            Sign Up
-          </Link>
-        </nav>
-        <Button onClick={props.authConfig.signOutHandler}>Sign Out</Button>
+        {nav}
       </Toolbar>
     </AppBar>
   );
