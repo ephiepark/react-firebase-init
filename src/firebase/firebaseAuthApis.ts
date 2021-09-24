@@ -1,6 +1,6 @@
 import { setUser } from '../features/user/userSlice';
 import { store } from '../app/store';
-import { AuthConfig, User } from "./types";
+import { AuthConfig, User } from "../types/authTypes";
 import {
   Auth,
   User as FirebaseUser,

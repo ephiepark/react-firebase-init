@@ -8,8 +8,8 @@ import AppHeader from "./components/AppHeader";
 import SignIn from "./components/SignIn";
 import SignUp from "./components/SignUp";
 import { getAuth } from "firebase/auth";
-import firebaseConfig from "./configs/firebaseConfig";
-import { init as authInit } from "./auth/firebaseAuthApis";
+import firebaseConfig from "./firebase/firebaseConfig";
+import { init as authInit } from "./firebase/firebaseAuthApis";
 import { useAppSelector } from './app/hooks';
 import { selectUser } from './features/user/userSlice';
 

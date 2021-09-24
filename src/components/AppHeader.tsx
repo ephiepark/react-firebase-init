@@ -1,4 +1,4 @@
-import { AuthConfig } from "../auth/types";
+import { AuthConfig } from "../types/authTypes";
 import { useAppSelector } from '../app/hooks';
 import { selectUser } from '../features/user/userSlice';
 
