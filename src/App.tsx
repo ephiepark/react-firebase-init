@@ -13,6 +13,9 @@ import { init as authInit } from "./auth/firebaseAuthApis";
 import { useAppSelector } from './app/hooks';
 import { selectUser } from './features/user/userSlice';
 
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
+
 import {
   BrowserRouter as Router,
   Switch,
@@ -28,6 +31,7 @@ const authConfig = authInit(auth);
 
 function App() {
   const user = useAppSelector(selectUser);
+  const text = user === null ? 'Logged out' : 'Logged in as ' + user.email;
   return (
     <Router>
       <AppHeader authConfig={authConfig} />
@@ -39,7 +43,11 @@ function App() {
           <SignUp handleSignUpWithEmailAndPassword={authConfig.signUpWithEmailAndPasswordHandler} />
         </Route>
         <Route path="/">
-          <div>hi {user?.email}</div>
+          <Box sx={{ width: '100%', maxWidth: 500 }}>
+            <Typography variant="h1" component="div" gutterBottom>
+              {text}
+            </Typography>
+          </Box>
         </Route>
       </Switch>
     </Router>
