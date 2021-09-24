@@ -1,5 +1,6 @@
 import { useAppSelector } from '../app/hooks';
 import { selectUser } from '../features/user/userSlice';
+import { AuthConfig } from "../types/authTypes";
 
 import * as React from 'react';
 import Avatar from '@mui/material/Avatar';
@@ -14,7 +15,7 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 
-import { Redirect } from "react-router-dom";
+import { Link as RouterLink, Redirect } from "react-router-dom";
 
 function Copyright(props: any) {
   return (
@@ -31,9 +32,7 @@ function Copyright(props: any) {
 
 const theme = createTheme();
 
-export default function SignIn(props: {
-  handleSignInWithEmailAndPassword: (email: string, password: string) => void,
-}) {
+export default function SignIn(props: { authConfig: AuthConfig }) {
   const user = useAppSelector(selectUser);
   if (user !== null) {
     return <Redirect to="/" />;
@@ -44,7 +43,7 @@ export default function SignIn(props: {
     const data = new FormData(event.currentTarget);
     const email = data.get('email')?.toString() || '';
     const password = data.get('password')?.toString() || '';
-    props.handleSignInWithEmailAndPassword(email, password);
+    props.authConfig.signInWithEmailAndPasswordHandler(email, password);
   };
 
   return (
@@ -105,7 +104,7 @@ export default function SignIn(props: {
                 </Link>
               </Grid>
               <Grid item>
-                <Link href="#" variant="body2">
+                <Link variant="body2" component={RouterLink} to={"/" + props.authConfig.signUpRoute}>
                   {"Don't have an account? Sign Up"}
                 </Link>
               </Grid>

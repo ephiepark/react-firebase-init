@@ -37,10 +37,10 @@ function App() {
       <AppHeader authConfig={authConfig} />
       <Switch>
         <Route path={'/' + authConfig.signInRoute}>
-          <SignIn handleSignInWithEmailAndPassword={authConfig.signInWithEmailAndPasswordHandler} />
+          <SignIn authConfig={authConfig} />
         </Route>
         <Route path={'/' + authConfig.signUpRoute}>
-          <SignUp handleSignUpWithEmailAndPassword={authConfig.signUpWithEmailAndPasswordHandler} />
+          <SignUp authConfig={authConfig} />
         </Route>
         <Route path="/">
           <Box sx={{ width: '100%', maxWidth: 500 }}>
