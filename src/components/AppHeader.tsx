@@ -3,7 +3,7 @@ import Button from '@mui/material/Button';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import Link from '@mui/material/Link';
-import { AuthConfig } from "../types";
+import { AuthConfig } from "../auth/types";
 
 export default function AppHeader(props: { authConfig: AuthConfig }) {
   return (

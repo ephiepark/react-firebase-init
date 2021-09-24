@@ -6,3 +6,7 @@ export interface AuthConfig {
   signOutRoute: string,
   signOutHandler: () => void,
 };
+
+export interface User {
+  email: string | null,
+};

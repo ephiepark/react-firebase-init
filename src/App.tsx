@@ -7,10 +7,11 @@ import { getAnalytics } from "firebase/analytics";
 import AppHeader from "./components/AppHeader";
 import SignIn from "./components/SignIn";
 import SignUp from "./components/SignUp";
-import { getSignInWithEmailAndPasswordHandler, getSignOutHandler, getSignUpWithEmailAndPasswordHandler } from "./auth/utils";
-import { getAuth, onAuthStateChanged } from "firebase/auth";
-import { AuthConfig } from "./types";
+import { getAuth } from "firebase/auth";
 import firebaseConfig from "./configs/firebaseConfig";
+import { init as authInit } from "./auth/firebaseAuthApis";
+import { useAppSelector } from './app/hooks';
+import { selectUser } from './features/user/userSlice';
 
 import {
   BrowserRouter as Router,
@@ -23,31 +24,10 @@ const app = initializeApp(firebaseConfig);
 const analytics = getAnalytics(app);
 const auth = getAuth();
 
-onAuthStateChanged(auth, (user) => {
-  if (user) {
-    // User is signed in, see docs for a list of available properties
-    // https://firebase.google.com/docs/reference/js/firebase.User
-    const uid = user.uid;
-    // ...
-    console.log('login');
-  } else {
-    // User is signed out
-    // ...
-    console.log('logout');
-  }
-});
-
-const authConfig: AuthConfig = {
-  signInRoute: 'signin',
-  signInWithEmailAndPasswordHandler: getSignInWithEmailAndPasswordHandler(auth),
-  signUpRoute: 'signup',
-  signUpWithEmailAndPasswordHandler: getSignUpWithEmailAndPasswordHandler(auth),
-  signOutRoute: 'signout',
-  signOutHandler: getSignOutHandler(auth),
-};
+const authConfig = authInit(auth);
 
 function App() {
-  console.log(auth.currentUser);
+  const user = useAppSelector(selectUser);
   return (
     <Router>
       <AppHeader authConfig={authConfig} />
@@ -60,7 +40,7 @@ function App() {
             <SignUp handleSignUpWithEmailAndPassword={authConfig.signUpWithEmailAndPasswordHandler} />
           </Route>
           <Route path="/">
-            <div>hi {auth.currentUser?.email}</div>
+            <div>hi {user?.email}</div>
           </Route>
         </Switch>
       </div>
