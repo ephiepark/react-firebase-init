@@ -29,21 +29,22 @@ export const genSendPasswordResetEmail = async (email: string): Promise<void> =>
   return await sendPasswordResetEmail(getAuth(), email);
 };
 
-export const genHandleSignInWithEmailAndPassword = async (email: string, password: string): Promise<UserCredential> => {
+export const genHandleSignInWithEmailAndPassword = async (email: string, password: string): Promise<User> => {
   // TODO error handling
   const auth = getAuth();
-  return setPersistence(auth, browserLocalPersistence).then(() => {
-    return signInWithEmailAndPassword(auth, email, password);
+  return setPersistence(auth, browserLocalPersistence).then(async () => {
+    const userCredential = await signInWithEmailAndPassword(auth, email, password);
+    return getUserFromFirebaseUserNonnull(userCredential.user);
   });
 };
 
-export const genHandleSignUpWithEmailAndPassword = async (email: string, password: string): Promise<UserCredential> => {
+export const genHandleSignUpWithEmailAndPassword = async (email: string, password: string): Promise<User> => {
   // TODO error handling
   const auth = getAuth();
   return setPersistence(auth, browserLocalPersistence).then(async () => {
     const userCredential = await createUserWithEmailAndPassword(auth, email, password);
     await genSendEmailVerificationToCurrentUser();
-    return userCredential;
+    return getUserFromFirebaseUserNonnull(userCredential.user);
   });
 };
 
@@ -53,14 +54,18 @@ export const genSignOut = (): Promise<void> => {
   return signOut(auth);
 };
 
-export const getUserFromFirebaseUser = (user: FirebaseUser | null): User | null => {
-  if (user === null) {
-    return null;
-  }
+export const getUserFromFirebaseUserNonnull = (user: FirebaseUser): User => {
   return {
     email: user.email,
     isVerified: user.emailVerified,
   };
+};
+
+export const getUserFromFirebaseUser = (user: FirebaseUser | null): User | null => {
+  if (user === null) {
+    return null;
+  }
+  return getUserFromFirebaseUserNonnull(user);
 };
 
 export const init = (): AuthConfig => {

@@ -5,7 +5,7 @@ import { getAnalytics } from "firebase/analytics";
 // https://firebase.google.com/docs/web/setup#available-libraries
 
 import AppHeader from "./components/AppHeader";
-import SignIn from "./components/SignIn";
+import SignIn from "./features/signIn/SignIn";
 import SignUp from "./components/SignUp";
 import ForgotPassword from "./components/ForgotPassword";
 import { getAuth } from "firebase/auth";

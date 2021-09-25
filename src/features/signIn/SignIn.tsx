@@ -1,9 +1,11 @@
-import { useAppSelector } from '../app/hooks';
-import { selectUser } from '../features/user/userSlice';
-import { AuthConfig } from "../types/authTypes";
-import { genHandleSignInWithEmailAndPassword } from '../firebase/firebaseAuthApis';
+import { useAppSelector } from '../../app/hooks';
+import { selectUser } from '../user/userSlice';
+import { AuthConfig } from "../../types/authTypes";
+import { genHandleSignInWithEmailAndPassword } from '../../firebase/firebaseAuthApis';
+import { selectSignInError, signInAsync } from './signInSlice';
 
 import * as React from 'react';
+import Alert from '@mui/material/Alert';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -17,6 +19,8 @@ import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 
 import { Link as RouterLink, Redirect } from "react-router-dom";
+import { useDispatch } from 'react-redux';
+import { NoLuggageOutlined } from '@mui/icons-material';
 
 function Copyright(props: any) {
   return (
@@ -34,17 +38,21 @@ function Copyright(props: any) {
 const theme = createTheme();
 
 export default function SignIn(props: { authConfig: AuthConfig }) {
+  const dispatch = useDispatch();
   const user = useAppSelector(selectUser);
+  const error = useAppSelector(selectSignInError);
   if (user !== null) {
     return <Redirect to="/" />;
   }
+
+  const alert = error !== null ? <Alert severity="error">{error.errorMessage}</Alert> : null;
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     const email = data.get('email')?.toString() || '';
     const password = data.get('password')?.toString() || '';
-    genHandleSignInWithEmailAndPassword(email, password);
+    dispatch(signInAsync({email: email, password: password}));
   };
 
   return (
@@ -65,6 +73,7 @@ export default function SignIn(props: { authConfig: AuthConfig }) {
           <Typography component="h1" variant="h5">
             Sign in
           </Typography>
+          {alert}
           <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
             <TextField
               margin="normal"
