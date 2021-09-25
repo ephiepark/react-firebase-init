@@ -9,12 +9,13 @@ import SignIn from "./components/SignIn";
 import SignUp from "./components/SignUp";
 import { getAuth } from "firebase/auth";
 import firebaseConfig from "./firebase/firebaseConfig";
-import { init as authInit } from "./firebase/firebaseAuthApis";
+import { init as authInit, genSendEmailVerificationToCurrentUser } from "./firebase/firebaseAuthApis";
 import { useAppSelector } from './app/hooks';
 import { selectUser } from './features/user/userSlice';
 
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
+import Button from '@mui/material/Button';
 
 import {
   BrowserRouter as Router,
@@ -32,6 +33,9 @@ const authConfig = authInit(auth);
 function App() {
   const user = useAppSelector(selectUser);
   const text = user === null ? 'Logged out' : 'Logged in as ' + user.email;
+  const isVerified = user?.isVerified;
+  const resendEmailVerificationButton = (user !== null && !isVerified) ?
+    <Button onClick={genSendEmailVerificationToCurrentUser}>Re-send verification email</Button> : null;
   return (
     <Router>
       <AppHeader authConfig={authConfig} />
@@ -47,6 +51,7 @@ function App() {
             <Typography variant="h1" component="div" gutterBottom>
               {text}
             </Typography>
+            {resendEmailVerificationButton}
           </Box>
         </Route>
       </Switch>

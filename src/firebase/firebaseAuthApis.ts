@@ -57,6 +57,7 @@ export const getUserFromFirebaseUser = (user: FirebaseUser | null): User | null 
   }
   return {
     email: user.email,
+    isVerified: user.emailVerified,
   };
 };
 

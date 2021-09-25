@@ -9,4 +9,5 @@ export interface AuthConfig {
 
 export interface User {
   email: string | null,
+  isVerified: boolean,
 };
