@@ -12,16 +12,21 @@ import {
   onAuthStateChanged,
   UserCredential,
   sendEmailVerification,
-  getAuth
+  getAuth,
+  sendPasswordResetEmail
 } from "firebase/auth";
 
-export const genSendEmailVerificationToCurrentUser = async () => {
+export const genSendEmailVerificationToCurrentUser = async (): Promise<void> => {
   const currentUser = getAuth()?.currentUser;
   if (currentUser !== null) {
     await sendEmailVerification(currentUser);
   } else {
     throw new Error('Missing current user');
   }
+};
+
+export const genSendPasswordResetEmail = async (email: string): Promise<void> => {
+  return await sendPasswordResetEmail(getAuth(), email);
 };
 
 export const getSignInWithEmailAndPasswordHandler = (auth: Auth): (email: string, password: string) => void => {
@@ -73,5 +78,6 @@ export const init = (auth: Auth): AuthConfig => {
     signUpWithEmailAndPasswordHandler: getSignUpWithEmailAndPasswordHandler(auth),
     signOutRoute: 'signout',
     signOutHandler: getSignOutHandler(auth),
+    forgotPasswordRoute: 'forgotpassword',
   };
 };

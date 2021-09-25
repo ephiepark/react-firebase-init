@@ -5,6 +5,7 @@ export interface AuthConfig {
   signUpWithEmailAndPasswordHandler: (email: string, password: string) => void,
   signOutRoute: string,
   signOutHandler: () => void,
+  forgotPasswordRoute: string,
 };
 
 export interface User {

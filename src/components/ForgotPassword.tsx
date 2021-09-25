@@ -1,6 +1,7 @@
 import { useAppSelector } from '../app/hooks';
 import { selectUser } from '../features/user/userSlice';
 import { AuthConfig } from "../types/authTypes";
+import { genSendPasswordResetEmail } from "../firebase/firebaseAuthApis";
 
 import * as React from 'react';
 import Avatar from '@mui/material/Avatar';
@@ -8,7 +9,6 @@ import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
 import Link from '@mui/material/Link';
-import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
@@ -32,7 +32,7 @@ function Copyright(props: any) {
 
 const theme = createTheme();
 
-export default function SignIn(props: { authConfig: AuthConfig }) {
+export default function ForgotPassword(props: { authConfig: AuthConfig }) {
   const user = useAppSelector(selectUser);
   if (user !== null) {
     return <Redirect to="/" />;
@@ -42,8 +42,7 @@ export default function SignIn(props: { authConfig: AuthConfig }) {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     const email = data.get('email')?.toString() || '';
-    const password = data.get('password')?.toString() || '';
-    props.authConfig.signInWithEmailAndPasswordHandler(email, password);
+    genSendPasswordResetEmail(email);
   };
 
   return (
@@ -62,7 +61,7 @@ export default function SignIn(props: { authConfig: AuthConfig }) {
             <LockOutlinedIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
-            Sign in
+            Reset Password
           </Typography>
           <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
             <TextField
@@ -75,16 +74,6 @@ export default function SignIn(props: { authConfig: AuthConfig }) {
               autoComplete="email"
               autoFocus
             />
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              name="password"
-              label="Password"
-              type="password"
-              id="password"
-              autoComplete="current-password"
-            />
             {/* <FormControlLabel
               control={<Checkbox value="remember" color="primary" />}
               label="Remember me"
@@ -95,20 +84,8 @@ export default function SignIn(props: { authConfig: AuthConfig }) {
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
             >
-              Sign In
+              Send reset password email
             </Button>
-            <Grid container>
-              <Grid item xs>
-                <Link variant="body2" component={RouterLink} to={"/" + props.authConfig.forgotPasswordRoute}>
-                  Forgot password?
-                </Link>
-              </Grid>
-              <Grid item>
-                <Link variant="body2" component={RouterLink} to={"/" + props.authConfig.signUpRoute}>
-                  {"Don't have an account? Sign Up"}
-                </Link>
-              </Grid>
-            </Grid>
           </Box>
         </Box>
         <Copyright sx={{ mt: 8, mb: 4 }} />

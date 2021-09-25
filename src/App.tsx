@@ -7,6 +7,7 @@ import { getAnalytics } from "firebase/analytics";
 import AppHeader from "./components/AppHeader";
 import SignIn from "./components/SignIn";
 import SignUp from "./components/SignUp";
+import ForgotPassword from "./components/ForgotPassword";
 import { getAuth } from "firebase/auth";
 import firebaseConfig from "./firebase/firebaseConfig";
 import { init as authInit, genSendEmailVerificationToCurrentUser } from "./firebase/firebaseAuthApis";
@@ -45,6 +46,9 @@ function App() {
         </Route>
         <Route path={'/' + authConfig.signUpRoute}>
           <SignUp authConfig={authConfig} />
+        </Route>
+        <Route path={'/' + authConfig.forgotPasswordRoute}>
+          <ForgotPassword authConfig={authConfig} />
         </Route>
         <Route path="/">
           <Box sx={{ width: '100%', maxWidth: 500 }}>
