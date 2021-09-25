@@ -1,9 +1,8 @@
-import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { RootState } from '../../app/store';
 
-import { genSendEmailVerificationToCurrentUser, genSendPasswordResetEmail } from '../../firebase/firebaseAuthApis';
+import { genSendEmailVerificationToCurrentUser } from '../../firebase/firebaseAuthApis';
 
-import { User } from '../../types/authTypes';
 
 export interface EmailVerificationState {
   error: {errorCode: string, errorMessage: string} | null;

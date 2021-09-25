@@ -13,17 +13,12 @@ import { init as authInit } from "./firebase/firebaseAuthApis";
 import { useAppSelector } from './app/hooks';
 import { selectUser } from './features/user/userSlice';
 
-import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
-import Button from '@mui/material/Button';
-
 import {
   BrowserRouter as Router,
   Switch,
   Route,
   Redirect
 } from "react-router-dom";
-import React from "react";
 import EmailVerification from "./features/emailVerification/EmailVerification";
 
 // Initialize Firebase

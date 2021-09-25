@@ -19,7 +19,6 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 
 import { Link as RouterLink, Redirect } from "react-router-dom";
 import { useDispatch } from 'react-redux';
-import { NoLuggageOutlined } from '@mui/icons-material';
 import CircularProgress from '@mui/material/CircularProgress';
 
 function Copyright(props: any) {

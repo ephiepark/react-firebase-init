@@ -2,7 +2,6 @@ import { setUser } from '../features/user/userSlice';
 import { store } from '../app/store';
 import { AuthConfig, User } from "../types/authTypes";
 import {
-  Auth,
   User as FirebaseUser,
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
@@ -10,7 +9,6 @@ import {
   setPersistence,
   signOut,
   onAuthStateChanged,
-  UserCredential,
   sendEmailVerification,
   getAuth,
   sendPasswordResetEmail
@@ -30,7 +28,6 @@ export const genSendPasswordResetEmail = async (email: string): Promise<void> =>
 };
 
 export const genSignInWithEmailAndPassword = async (email: string, password: string): Promise<User> => {
-  // TODO error handling
   const auth = getAuth();
   return setPersistence(auth, browserLocalPersistence).then(async () => {
     const userCredential = await signInWithEmailAndPassword(auth, email, password);
@@ -39,7 +36,6 @@ export const genSignInWithEmailAndPassword = async (email: string, password: str
 };
 
 export const genSignUpWithEmailAndPassword = async (email: string, password: string): Promise<User> => {
-  // TODO error handling
   const auth = getAuth();
   return setPersistence(auth, browserLocalPersistence).then(async () => {
     const userCredential = await createUserWithEmailAndPassword(auth, email, password);
@@ -49,7 +45,6 @@ export const genSignUpWithEmailAndPassword = async (email: string, password: str
 };
 
 export const genSignOut = (): Promise<void> => {
-  // TODO error handling
   const auth = getAuth();
   return signOut(auth);
 };

@@ -14,12 +14,11 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 
-import { Link as RouterLink, Redirect } from "react-router-dom";
+import { Redirect } from "react-router-dom";
 import { selectResetPasswordError, selectResetPasswordStatus, sendPasswordResetEmailAsync } from './resetPasswordSlice';
 import { useDispatch } from 'react-redux';
 import CircularProgress from '@mui/material/CircularProgress';
 import Alert from '@mui/material/Alert';
-import { AlertColor } from '@mui/material/Alert';
 
 function Copyright(props: any) {
   return (

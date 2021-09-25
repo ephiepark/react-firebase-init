@@ -1,7 +1,6 @@
 import { useAppSelector } from '../../app/hooks';
 import { selectUser } from '../user/userSlice';
 import { AuthConfig } from "../../types/authTypes";
-import { genSignUpWithEmailAndPassword } from '../../firebase/firebaseAuthApis';
 
 import * as React from 'react';
 import Alert from '@mui/material/Alert';
