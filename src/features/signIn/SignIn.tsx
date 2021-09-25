@@ -1,7 +1,7 @@
 import { useAppSelector } from '../../app/hooks';
 import { selectUser } from '../user/userSlice';
 import { AuthConfig } from "../../types/authTypes";
-import { selectSignInError, signInAsync } from './signInSlice';
+import { selectSignInError, selectSignInStatus, signInAsync } from './signInSlice';
 
 import * as React from 'react';
 import Alert from '@mui/material/Alert';
@@ -20,6 +20,7 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { Link as RouterLink, Redirect } from "react-router-dom";
 import { useDispatch } from 'react-redux';
 import { NoLuggageOutlined } from '@mui/icons-material';
+import CircularProgress from '@mui/material/CircularProgress';
 
 function Copyright(props: any) {
   return (
@@ -40,6 +41,7 @@ export default function SignIn(props: { authConfig: AuthConfig }) {
   const dispatch = useDispatch();
   const user = useAppSelector(selectUser);
   const error = useAppSelector(selectSignInError);
+  const status = useAppSelector(selectSignInStatus);
   if (user !== null) {
     return <Redirect to="/" />;
   }
@@ -52,6 +54,11 @@ export default function SignIn(props: { authConfig: AuthConfig }) {
     const email = data.get('email')?.toString() || '';
     const password = data.get('password')?.toString() || '';
     dispatch(signInAsync({email: email, password: password}));
+  };
+
+  const buttonConfig = {
+    disabled: status === 'processing',
+    content: status === 'processing' ? <div>{'Signing In'}<CircularProgress size={10}/></div> : 'Sign In',
   };
 
   return (
@@ -103,8 +110,9 @@ export default function SignIn(props: { authConfig: AuthConfig }) {
               fullWidth
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
+              disabled={buttonConfig.disabled}
             >
-              Sign In
+              {buttonConfig.content}
             </Button>
             <Grid container>
               <Grid item xs>

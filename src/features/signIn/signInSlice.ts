@@ -54,5 +54,6 @@ export const signInSlice = createSlice({
 // export const { } = signInSlice.actions;
 
 export const selectSignInError = (state: RootState) => state.signIn.error;
+export const selectSignInStatus = (state: RootState) => state.signIn.status;
 
 export default signInSlice.reducer;
