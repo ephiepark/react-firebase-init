@@ -7,7 +7,7 @@ import { getAnalytics } from "firebase/analytics";
 import AppHeader from "./components/AppHeader";
 import SignIn from "./features/signIn/SignIn";
 import SignUp from "./features/signUp/SignUp";
-import ResetPassword from "./features/signIn/ResetPassword";
+import ResetPassword from "./features/resetPassword/ResetPassword";
 import firebaseConfig from "./firebase/firebaseConfig";
 import { init as authInit, genSendEmailVerificationToCurrentUser } from "./firebase/firebaseAuthApis";
 import { useAppSelector } from './app/hooks';

@@ -1,7 +1,6 @@
 import { useAppSelector } from '../../app/hooks';
 import { selectUser } from '../user/userSlice';
 import { AuthConfig } from "../../types/authTypes";
-import { genSendPasswordResetEmail } from "../../firebase/firebaseAuthApis";
 
 import * as React from 'react';
 import Avatar from '@mui/material/Avatar';
@@ -16,6 +15,11 @@ import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 
 import { Link as RouterLink, Redirect } from "react-router-dom";
+import { selectResetPasswordError, selectResetPasswordStatus, sendPasswordResetEmailAsync } from './resetPasswordSlice';
+import { useDispatch } from 'react-redux';
+import CircularProgress from '@mui/material/CircularProgress';
+import Alert from '@mui/material/Alert';
+import { AlertColor } from '@mui/material/Alert';
 
 function Copyright(props: any) {
   return (
@@ -33,16 +37,30 @@ function Copyright(props: any) {
 const theme = createTheme();
 
 export default function ResetPassword(props: { authConfig: AuthConfig }) {
+  const dispatch = useDispatch();
+  const error = useAppSelector(selectResetPasswordError);
   const user = useAppSelector(selectUser);
+  const status = useAppSelector(selectResetPasswordStatus);
   if (user !== null) {
     return <Redirect to="/" />;
   }
+
+  const alertConfig = {
+    isSuccess: status === 'success',
+    alertMessage: status === 'success' ? 'Password reset email sent!' : error?.errorMessage ?? '',
+  };
+  const alert = (status === 'success' || status === 'failed') ? <Alert severity={alertConfig.isSuccess ? 'success' : 'error'}>{alertConfig.alertMessage}</Alert> : null;
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     const email = data.get('email')?.toString() || '';
-    genSendPasswordResetEmail(email);
+    dispatch(sendPasswordResetEmailAsync(email));
+  };
+
+  const buttonConfig = {
+    disabled: status === 'processing',
+    content: status === 'processing' ? <div>{'Sending reset password email'}<CircularProgress size={10}/></div> : 'Send reset password email',
   };
 
   return (
@@ -63,6 +81,7 @@ export default function ResetPassword(props: { authConfig: AuthConfig }) {
           <Typography component="h1" variant="h5">
             Reset Password
           </Typography>
+          {alert}
           <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
             <TextField
               margin="normal"
@@ -83,8 +102,9 @@ export default function ResetPassword(props: { authConfig: AuthConfig }) {
               fullWidth
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
+              disabled={buttonConfig.disabled}
             >
-              Send reset password email
+              {buttonConfig.content}
             </Button>
           </Box>
         </Box>
