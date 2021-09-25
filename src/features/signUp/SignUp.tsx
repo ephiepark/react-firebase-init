@@ -1,9 +1,10 @@
-import { useAppSelector } from '../app/hooks';
-import { selectUser } from '../features/user/userSlice';
-import { AuthConfig } from "../types/authTypes";
-import { genSignUpWithEmailAndPassword } from '../firebase/firebaseAuthApis';
+import { useAppSelector } from '../../app/hooks';
+import { selectUser } from '../user/userSlice';
+import { AuthConfig } from "../../types/authTypes";
+import { genSignUpWithEmailAndPassword } from '../../firebase/firebaseAuthApis';
 
 import * as React from 'react';
+import Alert from '@mui/material/Alert';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -17,6 +18,8 @@ import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 
 import { Link as RouterLink, Redirect } from "react-router-dom";
+import { useDispatch } from 'react-redux';
+import { selectSignUpError, signUpAsync } from './signUpSlice';
 
 function Copyright(props: any) {
   return (
@@ -34,17 +37,21 @@ function Copyright(props: any) {
 const theme = createTheme();
 
 export default function SignUp(props: { authConfig: AuthConfig }) {
+  const dispatch = useDispatch();
   const user = useAppSelector(selectUser);
+  const error = useAppSelector(selectSignUpError);
   if (user !== null) {
     return <Redirect to="/" />;
   }
+
+  const alert = error !== null ? <Alert severity="error">{error.errorMessage}</Alert> : null;
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     const email = data.get('email')?.toString() || '';
     const password = data.get('password')?.toString() || '';
-    genSignUpWithEmailAndPassword(email, password);
+    dispatch(signUpAsync({email: email, password: password}));
   };
 
   return (
@@ -65,9 +72,10 @@ export default function SignUp(props: { authConfig: AuthConfig }) {
           <Typography component="h1" variant="h5">
             Sign up
           </Typography>
+          {alert}
           <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
             <Grid container spacing={2}>
-              <Grid item xs={12} sm={6}>
+              {/* <Grid item xs={12} sm={6}>
                 <TextField
                   autoComplete="fname"
                   name="firstName"
@@ -87,7 +95,7 @@ export default function SignUp(props: { authConfig: AuthConfig }) {
                   name="lastName"
                   autoComplete="lname"
                 />
-              </Grid>
+              </Grid> */}
               <Grid item xs={12}>
                 <TextField
                   required

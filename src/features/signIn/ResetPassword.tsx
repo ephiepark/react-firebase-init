@@ -1,7 +1,7 @@
-import { useAppSelector } from '../app/hooks';
-import { selectUser } from '../features/user/userSlice';
-import { AuthConfig } from "../types/authTypes";
-import { genSendPasswordResetEmail } from "../firebase/firebaseAuthApis";
+import { useAppSelector } from '../../app/hooks';
+import { selectUser } from '../user/userSlice';
+import { AuthConfig } from "../../types/authTypes";
+import { genSendPasswordResetEmail } from "../../firebase/firebaseAuthApis";
 
 import * as React from 'react';
 import Avatar from '@mui/material/Avatar';
