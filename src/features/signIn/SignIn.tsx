@@ -1,7 +1,6 @@
 import { useAppSelector } from '../../app/hooks';
 import { selectUser } from '../user/userSlice';
 import { AuthConfig } from "../../types/authTypes";
-import { genHandleSignInWithEmailAndPassword } from '../../firebase/firebaseAuthApis';
 import { selectSignInError, signInAsync } from './signInSlice';
 
 import * as React from 'react';
@@ -109,7 +108,7 @@ export default function SignIn(props: { authConfig: AuthConfig }) {
             </Button>
             <Grid container>
               <Grid item xs>
-                <Link variant="body2" component={RouterLink} to={"/" + props.authConfig.forgotPasswordRoute}>
+                <Link variant="body2" component={RouterLink} to={"/" + props.authConfig.resetPasswordRoute}>
                   Forgot password?
                 </Link>
               </Grid>

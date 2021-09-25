@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { RootState } from '../../app/store';
 
-import { genHandleSignInWithEmailAndPassword } from '../../firebase/firebaseAuthApis';
+import { genSignInWithEmailAndPassword } from '../../firebase/firebaseAuthApis';
 
 import { User } from '../../types/authTypes';
 
@@ -17,8 +17,8 @@ const initialState: SignInState = {
 
 export const signInAsync = createAsyncThunk(
   'signIn/signInRequest',
-  async (emailAndPassword: {email: string, password: string}, { rejectWithValue }): Promise<User> => {
-    const response = await genHandleSignInWithEmailAndPassword(
+  async (emailAndPassword: {email: string, password: string}): Promise<User> => {
+    const response = await genSignInWithEmailAndPassword(
       emailAndPassword.email,
       emailAndPassword.password
     );

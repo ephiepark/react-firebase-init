@@ -29,7 +29,7 @@ export const genSendPasswordResetEmail = async (email: string): Promise<void> =>
   return await sendPasswordResetEmail(getAuth(), email);
 };
 
-export const genHandleSignInWithEmailAndPassword = async (email: string, password: string): Promise<User> => {
+export const genSignInWithEmailAndPassword = async (email: string, password: string): Promise<User> => {
   // TODO error handling
   const auth = getAuth();
   return setPersistence(auth, browserLocalPersistence).then(async () => {
@@ -38,7 +38,7 @@ export const genHandleSignInWithEmailAndPassword = async (email: string, passwor
   });
 };
 
-export const genHandleSignUpWithEmailAndPassword = async (email: string, password: string): Promise<User> => {
+export const genSignUpWithEmailAndPassword = async (email: string, password: string): Promise<User> => {
   // TODO error handling
   const auth = getAuth();
   return setPersistence(auth, browserLocalPersistence).then(async () => {
@@ -78,6 +78,6 @@ export const init = (): AuthConfig => {
     signInRoute: 'signin',
     signUpRoute: 'signup',
     signOutRoute: 'signout',
-    forgotPasswordRoute: 'forgotpassword',
+    resetPasswordRoute: 'resetpassword',
   };
 };

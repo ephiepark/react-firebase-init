@@ -32,7 +32,7 @@ function Copyright(props: any) {
 
 const theme = createTheme();
 
-export default function ForgotPassword(props: { authConfig: AuthConfig }) {
+export default function ResetPassword(props: { authConfig: AuthConfig }) {
   const user = useAppSelector(selectUser);
   if (user !== null) {
     return <Redirect to="/" />;
