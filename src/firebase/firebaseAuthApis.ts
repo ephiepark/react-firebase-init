@@ -17,7 +17,7 @@ import {
 } from "firebase/auth";
 
 export const genSendEmailVerificationToCurrentUser = async (): Promise<void> => {
-  const currentUser = getAuth()?.currentUser;
+  const currentUser = getAuth().currentUser;
   if (currentUser !== null) {
     await sendEmailVerification(currentUser);
   } else {
@@ -29,31 +29,28 @@ export const genSendPasswordResetEmail = async (email: string): Promise<void> =>
   return await sendPasswordResetEmail(getAuth(), email);
 };
 
-export const getSignInWithEmailAndPasswordHandler = (auth: Auth): (email: string, password: string) => void => {
+export const genHandleSignInWithEmailAndPassword = async (email: string, password: string): Promise<UserCredential> => {
   // TODO error handling
-  return (email: string, password: string): Promise<UserCredential> => {
-    return setPersistence(auth, browserLocalPersistence).then(() => {
-      return signInWithEmailAndPassword(auth, email, password);
-    });
-  };
+  const auth = getAuth();
+  return setPersistence(auth, browserLocalPersistence).then(() => {
+    return signInWithEmailAndPassword(auth, email, password);
+  });
 };
 
-export const getSignUpWithEmailAndPasswordHandler = (auth: Auth): (email: string, password: string) => void => {
+export const genHandleSignUpWithEmailAndPassword = async (email: string, password: string): Promise<UserCredential> => {
   // TODO error handling
-  return (email: string, password: string): Promise<UserCredential> => {
-    return setPersistence(auth, browserLocalPersistence).then(async () => {
-      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-      await genSendEmailVerificationToCurrentUser();
-      return userCredential;
-    });
-  };
+  const auth = getAuth();
+  return setPersistence(auth, browserLocalPersistence).then(async () => {
+    const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+    await genSendEmailVerificationToCurrentUser();
+    return userCredential;
+  });
 };
 
-export const getSignOutHandler = (auth: Auth): () => void => {
+export const genSignOut = (): Promise<void> => {
   // TODO error handling
-  return (): Promise<void> => {
-    return signOut(auth);
-  };
+  const auth = getAuth();
+  return signOut(auth);
 };
 
 export const getUserFromFirebaseUser = (user: FirebaseUser | null): User | null => {
@@ -66,18 +63,16 @@ export const getUserFromFirebaseUser = (user: FirebaseUser | null): User | null 
   };
 };
 
-export const init = (auth: Auth): AuthConfig => {
+export const init = (): AuthConfig => {
+  const auth = getAuth();
   onAuthStateChanged(auth, (user) => {
     store.dispatch(setUser(getUserFromFirebaseUser(user)));
   });
 
   return {
     signInRoute: 'signin',
-    signInWithEmailAndPasswordHandler: getSignInWithEmailAndPasswordHandler(auth),
     signUpRoute: 'signup',
-    signUpWithEmailAndPasswordHandler: getSignUpWithEmailAndPasswordHandler(auth),
     signOutRoute: 'signout',
-    signOutHandler: getSignOutHandler(auth),
     forgotPasswordRoute: 'forgotpassword',
   };
 };

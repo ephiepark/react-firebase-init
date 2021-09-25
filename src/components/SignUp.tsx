@@ -1,6 +1,7 @@
 import { useAppSelector } from '../app/hooks';
 import { selectUser } from '../features/user/userSlice';
 import { AuthConfig } from "../types/authTypes";
+import { genHandleSignUpWithEmailAndPassword } from '../firebase/firebaseAuthApis';
 
 import * as React from 'react';
 import Avatar from '@mui/material/Avatar';
@@ -43,7 +44,7 @@ export default function SignUp(props: { authConfig: AuthConfig }) {
     const data = new FormData(event.currentTarget);
     const email = data.get('email')?.toString() || '';
     const password = data.get('password')?.toString() || '';
-    props.authConfig.signUpWithEmailAndPasswordHandler(email, password);
+    genHandleSignUpWithEmailAndPassword(email, password);
   };
 
   return (

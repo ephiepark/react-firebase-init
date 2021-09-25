@@ -1,6 +1,7 @@
 import { AuthConfig } from "../types/authTypes";
 import { useAppSelector } from '../app/hooks';
 import { selectUser } from '../features/user/userSlice';
+import { genSignOut } from '../firebase/firebaseAuthApis';
 
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
@@ -18,7 +19,7 @@ function LoggedInNav(props: { authConfig: AuthConfig }) {
         sx={{ my: 1, mx: 1.5 }}
         component={RouterLink}
         to={"/"}
-        onClick={props.authConfig.signOutHandler}
+        onClick={genSignOut}
       >
         Sign Out
       </Link>

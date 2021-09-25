@@ -27,9 +27,8 @@ import {
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const analytics = getAnalytics(app);
-const auth = getAuth();
 
-const authConfig = authInit(auth);
+const authConfig = authInit();
 
 function App() {
   const user = useAppSelector(selectUser);
