@@ -10,8 +10,19 @@ import {
   setPersistence,
   signOut,
   onAuthStateChanged,
-  UserCredential
+  UserCredential,
+  sendEmailVerification,
+  getAuth
 } from "firebase/auth";
+
+export const genSendEmailVerificationToCurrentUser = async () => {
+  const currentUser = getAuth()?.currentUser;
+  if (currentUser !== null) {
+    await sendEmailVerification(currentUser);
+  } else {
+    throw new Error('Missing current user');
+  }
+};
 
 export const getSignInWithEmailAndPasswordHandler = (auth: Auth): (email: string, password: string) => void => {
   // TODO error handling
@@ -25,8 +36,10 @@ export const getSignInWithEmailAndPasswordHandler = (auth: Auth): (email: string
 export const getSignUpWithEmailAndPasswordHandler = (auth: Auth): (email: string, password: string) => void => {
   // TODO error handling
   return (email: string, password: string): Promise<UserCredential> => {
-    return setPersistence(auth, browserLocalPersistence).then(() => {
-      return createUserWithEmailAndPassword(auth, email, password);
+    return setPersistence(auth, browserLocalPersistence).then(async () => {
+      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+      await genSendEmailVerificationToCurrentUser();
+      return userCredential;
     });
   };
 };
