@@ -19,7 +19,8 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 
 import { Link as RouterLink, Redirect } from "react-router-dom";
 import { useDispatch } from 'react-redux';
-import { selectSignUpError, signUpAsync } from './signUpSlice';
+import { selectSignUpError, selectSignUpStatus, signUpAsync } from './signUpSlice';
+import CircularProgress from '@mui/material/CircularProgress';
 
 function Copyright(props: any) {
   return (
@@ -40,6 +41,7 @@ export default function SignUp(props: { authConfig: AuthConfig }) {
   const dispatch = useDispatch();
   const user = useAppSelector(selectUser);
   const error = useAppSelector(selectSignUpError);
+  const status = useAppSelector(selectSignUpStatus);
   if (user !== null) {
     return <Redirect to="/" />;
   }
@@ -52,6 +54,11 @@ export default function SignUp(props: { authConfig: AuthConfig }) {
     const email = data.get('email')?.toString() || '';
     const password = data.get('password')?.toString() || '';
     dispatch(signUpAsync({email: email, password: password}));
+  };
+
+  const buttonConfig = {
+    disabled: status === 'processing',
+    content: status === 'processing' ? <div>{'Signing Up'}<CircularProgress size={10}/></div> : 'Sign Up',
   };
 
   return (
@@ -129,8 +136,9 @@ export default function SignUp(props: { authConfig: AuthConfig }) {
               fullWidth
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
+              disabled={buttonConfig.disabled}
             >
-              Sign Up
+              {buttonConfig.content}
             </Button>
             <Grid container justifyContent="flex-end">
               <Grid item>
