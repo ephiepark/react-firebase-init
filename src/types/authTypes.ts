@@ -3,6 +3,7 @@ export interface AuthConfig {
   signUpRoute: string,
   signOutRoute: string,
   resetPasswordRoute: string,
+  emailVerificationRoute: string,
 };
 
 export interface User {

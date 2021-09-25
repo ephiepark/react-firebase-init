@@ -79,5 +79,6 @@ export const init = (): AuthConfig => {
     signUpRoute: 'signup',
     signOutRoute: 'signout',
     resetPasswordRoute: 'resetpassword',
+    emailVerificationRoute: 'emailverification',
   };
 };

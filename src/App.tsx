@@ -9,7 +9,7 @@ import SignIn from "./features/signIn/SignIn";
 import SignUp from "./features/signUp/SignUp";
 import ResetPassword from "./features/resetPassword/ResetPassword";
 import firebaseConfig from "./firebase/firebaseConfig";
-import { init as authInit, genSendEmailVerificationToCurrentUser } from "./firebase/firebaseAuthApis";
+import { init as authInit } from "./firebase/firebaseAuthApis";
 import { useAppSelector } from './app/hooks';
 import { selectUser } from './features/user/userSlice';
 
@@ -20,8 +20,11 @@ import Button from '@mui/material/Button';
 import {
   BrowserRouter as Router,
   Switch,
-  Route
+  Route,
+  Redirect
 } from "react-router-dom";
+import React from "react";
+import EmailVerification from "./features/emailVerification/EmailVerification";
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
@@ -33,8 +36,7 @@ function App() {
   const user = useAppSelector(selectUser);
   const text = user === null ? 'Logged out' : 'Logged in as ' + user.email;
   const isVerified = user?.isVerified;
-  const resendEmailVerificationButton = (user !== null && !isVerified) ?
-    <Button onClick={genSendEmailVerificationToCurrentUser}>Re-send verification email</Button> : null;
+  const isVerificationNecessary = (user !== null && !isVerified);
   return (
     <Router>
       <AppHeader authConfig={authConfig} />
@@ -48,13 +50,11 @@ function App() {
         <Route path={'/' + authConfig.resetPasswordRoute}>
           <ResetPassword authConfig={authConfig} />
         </Route>
+        <Route path={'/' + authConfig.emailVerificationRoute}>
+          <EmailVerification />
+        </Route>
         <Route path="/">
-          <Box sx={{ width: '100%', maxWidth: 500 }}>
-            <Typography variant="h1" component="div" gutterBottom>
-              {text}
-            </Typography>
-            {resendEmailVerificationButton}
-          </Box>
+          {isVerificationNecessary ? <Redirect to={'/' + authConfig.emailVerificationRoute} /> : text}
         </Route>
       </Switch>
     </Router>

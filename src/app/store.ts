@@ -3,6 +3,7 @@ import userReducer from '../features/user/userSlice';
 import signInReducer from '../features/signIn/signInSlice';
 import signUpReducer from '../features/signUp/signUpSlice';
 import resetPasswordReducer from '../features/resetPassword/resetPasswordSlice';
+import emailVerificationReducer from '../features/emailVerification/emailVerificationSlice';
 
 export const store = configureStore({
   reducer: {
@@ -10,6 +11,7 @@ export const store = configureStore({
     signIn: signInReducer,
     signUp: signUpReducer,
     resetPassword: resetPasswordReducer,
+    emailVerification: emailVerificationReducer,
   },
 });
 
