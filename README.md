@@ -7,15 +7,15 @@ This project provides the code with basic authentication flow done so that you c
 # Note
 
  - This project is built with React / Redux / Firebase / Typescript. 
- - It is necessary to enable Firebase authentication
 
 # How to use this
 1. Create a new firebase project
-2. Fork this repo
-3. Clone the repo
-4. Update src/firebase/firebaseConfig.ts file to have config setting from your firebase project. 
-5. Hack it away!
-  - The project is built using Create React App. "Getting Started with Create React App" still applies. 
+    - Enable firebase authentication
+3. Fork this repo
+4. Clone the repo
+5. Update src/firebase/firebaseConfig.ts file to have config setting from your firebase project. 
+6. Hack it away!
+    - The project is built using Create React App. "Getting Started with Create React App" still applies. 
 
 
 -------
