@@ -7,6 +7,7 @@ This project provides the code with basic authentication flow done so that you c
 # Note
 
  - This project is built with React / Redux / Firebase / Typescript. 
+ - It is necessary to enable Firebase authentication
 
 # How to use this
 1. Create a new firebase project
