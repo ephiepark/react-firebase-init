@@ -1,3 +1,24 @@
+# Goal of the project
+
+Everytime there is an idea about web app side project, significant amount time is spent on building boilerplate code. Especially getting the authentication flow done take non trivial amount of time. In order to have a complete authentication flow, sign up, sign in, forgot password, email verification all needs to be covered. 
+
+This project provides the code with basic authentication flow done so that you can jump right into the fun part of the project! 
+
+# Note
+
+ - This project is built with React / Redux / Firebase / Typescript. 
+
+# How to use this
+1. Create a new firebase project
+2. Fork this repo
+3. Clone the repo
+4. Update src/firebase/firebaseConfig.ts file to have config setting from your firebase project. 
+5. Hack it away!
+  - The project is built using Create React App. "Getting Started with Create React App" still applies. 
+
+
+-------
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
